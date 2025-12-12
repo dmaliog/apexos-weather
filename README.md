@@ -1,90 +1,57 @@
-# ✨ Freyry – KDE Plasma Weather Plasmoid ✨
+# ApexOS Weather - Fork Information
 
-[![License: GPL](https://img.shields.io/badge/License-GNU%20GPL-blue)](LICENSE) [![KDE Plasma](https://img.shields.io/badge/Plasma-6.4+-purple)](https://kde.org/plasma-desktop/)
+## About This Fork
 
-**Freyry** is an elegant, compact, and feature-rich plasmoid for **KDE Plasma** that keeps you updated on the weather at all times. Built with simplicity and power in mind, it leverages the **Open-Meteo API** to provide weather data instantly, **without requiring an API key**.
+**ApexOS Weather** is a fork of **Freyry.Weather**, a compact weather widget for KDE Plasma.
 
----
+This fork includes various improvements and customizations:
+- Enhanced card styling with viewitem theme integration
+- Improved layout and spacing for better visual appearance
+- Better vertical distribution of elements in forecast cards
+- Custom opacity and hover effects
 
-## 🚀 Key Features
+## Original Project
 
-- **Automatic Location Detection**  
-  Detects your location via IP and shows weather instantly.
+**Original Project:** Freyry.Weather  
+**Original Author:** zayronxio (adolfo@librepixels.com)  
+**Original Repository:** https://github.com/zayronxio/Freyry.Weather/  
+**Project Website:** https://apexos.ru/  
+**Original License:** GPL-3.0+
 
-- **Manual Location Selection**  
-  Check the weather anywhere by entering city name or coordinates.
+## License
 
-- **Comprehensive Weather Data**  
-  Get all essential meteorological information at a glance:  
-  - Current Weather Conditions  
-  - Hourly & Daily Forecasts  
-  - Chance of Rain  
-  - UV Index  
-  - Sunrise & Sunset Times  
-  - "Feels Like" Temperature, Humidity & Wind  
-  - High & Low Temperatures  
-  - Cloudiness  
-  - Humidity  
+This project is licensed under the **GNU General Public License v3.0 or later (GPL-3.0-or-later)**.
 
-- **Clean & Compact Interface**  
-  Integrates seamlessly into your KDE Plasma desktop without clutter.
+All files in this project are subject to the GPL-3.0-or-later license. See the [LICENSE](LICENSE) file for the full license text.
 
----
+## Copyright
 
-## 💡 Why Freyry?
+Copyright (C) 2024 ApexOS Weather Contributors
 
-Designed for **efficiency and clarity**, Freyry provides a complete weather overview in a minimal space. It’s intuitive for both casual users and weather enthusiasts.
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
----
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
-## 🛠️ Installation
-  ### KDE Store
-  
-* Right click on the desktop
-* Click on "Add Widgets"
-* Click on "Get New Widgets"
-* Click on "Download New Plasma Widgets"
-* Search for "Freyry Weather"
-* Click on "Install" and you're done!
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-## ⚙️ Configuration
+## Acknowledgments
 
-Right-click the plasmoid and select **"Configure Freyry..."** to customize:
+This fork is based on the excellent work by zayronxio and the original Freyry.Weather project. We thank the original author and contributors for their work.
 
-- Switch between **automatic** or **manual** location.  
-- Enter your preferred **city name** or **coordinates**.  
-- Adjust **display options** to fit your desktop style.
+## Modifications
 
----
+This fork maintains compatibility with the original project while adding:
+- Custom styling improvements
+- Enhanced UI/UX elements
+- Better responsive layout
+- Improved visual consistency
 
-## 📸 Screenshots
-
-![Screenshot 1](https://raw.githubusercontent.com/zayronxio/Freyry.Weather/refs/heads/main/previews/04.webp)  
-![Screenshot 2](https://raw.githubusercontent.com/zayronxio/Freyry.Weather/refs/heads/main/previews/03.webp) 
-![Screenshot 3](https://raw.githubusercontent.com/zayronxio/Freyry.Weather/refs/heads/main/previews/01.webp) 
-
-
----
-
-## 📄 License
-
-This project is licensed under the **GPL 3.0 License** – see the [LICENSE](LICENSE) file for details.
-
----
-
-## 🌐 Resources
-
-- **Open-Meteo API**: [https://open-meteo.com/](https://open-meteo.com/)  
-- **KDE Plasma**: [https://kde.org/plasma-desktop/](https://kde.org/plasma-desktop/)
-
----
-
-## 🙌 Contributing
-
-Contributions, issues, and feature requests are welcome!  
-Feel free to **fork the repository** and submit a **pull request**.
-
----
-
-Made with ❤️ for KDE Plasma users.
+All modifications are made available under the same GPL-3.0-or-later license as the original project.
 

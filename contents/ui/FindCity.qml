@@ -20,7 +20,7 @@ Kirigami.Dialog {
         anchors.top: parent.top
         anchors.left: parent.left
         anchors.right: parent.right
-        anchors.topMargin: headerItem ? headerItem.height : Kirigami.Units.gridUnit * 2.5
+        anchors.topMargin: dialog.header ? dialog.header.height : Kirigami.Units.gridUnit * 2.5
         height: 1
         color: Qt.rgba(Kirigami.Theme.textColor.r, Kirigami.Theme.textColor.g, Kirigami.Theme.textColor.b, 0.2)
     }
@@ -107,7 +107,7 @@ Kirigami.Dialog {
     ListModel { id: resultsModel }
 
     function searchLocations(query) {
-        var url = "https://photon.komoot.io/api/?q=" + encodeURIComponent(query)
+        var url = "https:
         var xhr = new XMLHttpRequest()
         xhr.open("GET", url)
         xhr.onreadystatechange = function() {

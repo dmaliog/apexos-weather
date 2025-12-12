@@ -33,7 +33,9 @@ Item {
             coordinates.latitude = findCity.selectedLatitude
             coordinates.longitude = findCity.selectedLongitude
             coordinates.updateRecent = true
-            Plasmoid.configurationChanged()
+            if (typeof Plasmoid !== "undefined" && Plasmoid.configurationChanged) {
+                Plasmoid.configurationChanged()
+            }
         }
     }
 
@@ -319,7 +321,9 @@ Item {
                         icon.name: "edit-undo"
                         onClicked: {
                             Plasmoid.configuration.metricsOrder = []
-                            Plasmoid.configurationChanged()
+                            if (typeof Plasmoid !== "undefined" && Plasmoid.configurationChanged) {
+                                Plasmoid.configurationChanged()
+                            }
                         }
                     }
                 }

@@ -2,9 +2,7 @@
 
 **ApexOS Weather** is a compact weather widget for KDE Plasma with enhanced design and functionality.
 
-<img width="856" height="717" alt="sdfsfd" src="https://github.com/user-attachments/assets/fda970cf-a26c-475e-9c6d-90c7b06cc76c" />
-<img width="497" height="315" alt="2" src="https://github.com/user-attachments/assets/6819982b-bcb3-41c7-bc7b-e1e7c3c2528a" />
-<img width="510" height="321" alt="1223123123" src="https://github.com/user-attachments/assets/479d88b9-3a2c-4afa-a9cd-b4956792a684" />
+<img width="501" height="321" alt="1" src="https://github.com/user-attachments/assets/c038e5ca-f5d5-44f7-bcda-238a6e78a69b" />
 
 
 ## About This Fork

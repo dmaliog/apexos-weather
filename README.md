@@ -8,9 +8,6 @@
 
 This fork includes various improvements and customizations:
 - **Enhanced card styling** — completely redesigned cards with viewitem theme integration for consistent appearance
-- **Improved layout and spacing** — optimized spacing and element positioning for better visual appearance
-- **Better vertical distribution** — improved vertical distribution of elements in forecast cards
-- **Custom opacity and hover effects** — configurable opacity and hover effects for better user experience
 - **Bug fixes and improvements** — fixed all errors, warnings, and configuration issues
 - **Multi-language support** — translated to multiple languages (English, Russian, German, Spanish, French, Korean, Dutch, Polish, Portuguese, Turkish, Ukrainian, Chinese)
 - **Design improvements** — enhanced UI/UX with better visual consistency

@@ -65,6 +65,34 @@ Item {
     property alias cfg_textUbication: ubication.textUbication
     property alias cfg_updateRecent: coordinates.updateRecent
 
+    property var cfg_fontBoldWeather
+    property var cfg_fontBoldWeatherDefault
+    property var cfg_ipLocationDefault
+    property var cfg_latitudeLocalizedDefault
+    property var cfg_longitudeLocalizedDefault
+    property var cfg_metricsOrder
+    property var cfg_metricsOrderDefault
+    property var cfg_oldLatitude
+    property var cfg_oldLatitudeDefault
+    property var cfg_oldLongitude
+    property var cfg_oldLongitudeDefault
+    property var cfg_onlyIcon
+    property var cfg_onlyIconDefault
+    property var cfg_selectedMetricsDefault
+    property var cfg_showConditionsWeather
+    property var cfg_showConditionsWeatherDefault
+    property var cfg_showTemperatureWeather
+    property var cfg_showTemperatureWeatherDefault
+    property var cfg_sizeFontPanel
+    property var cfg_sizeFontPanelDefault
+    property var cfg_temperatureUnitDefault
+    property var cfg_textUbicationDefault
+    property var cfg_updateRecentDefault
+    property var cfg_UseFormat12hours
+    property var cfg_UseFormat12hoursDefault
+    property var cfg_windUnitDefault
+    property var title
+
     QtObject {
         id: metricsLayout
 

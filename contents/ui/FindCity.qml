@@ -107,7 +107,7 @@ Kirigami.Dialog {
     ListModel { id: resultsModel }
 
     function searchLocations(query) {
-        var url = "https:
+        var url = "https://photon.komoot.io/api/?q=" + encodeURIComponent(query)
         var xhr = new XMLHttpRequest()
         xhr.open("GET", url)
         xhr.onreadystatechange = function() {

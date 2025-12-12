@@ -20,6 +20,36 @@ Item {
     property alias cfg_showTemperatureWeather: showTemperatureWeather.checked
     property alias cfg_showConditionsWeather: showConditionsWeather.checked
 
+    property var cfg_fontBoldWeatherDefault
+    property var cfg_ipLocation
+    property var cfg_ipLocationDefault
+    property var cfg_latitudeLocalized
+    property var cfg_latitudeLocalizedDefault
+    property var cfg_longitudeLocalized
+    property var cfg_longitudeLocalizedDefault
+    property var cfg_metricsOrder
+    property var cfg_metricsOrderDefault
+    property var cfg_oldLatitude
+    property var cfg_oldLatitudeDefault
+    property var cfg_oldLongitude
+    property var cfg_oldLongitudeDefault
+    property var cfg_onlyIconDefault
+    property var cfg_selectedMetrics
+    property var cfg_selectedMetricsDefault
+    property var cfg_showConditionsWeatherDefault
+    property var cfg_showTemperatureWeatherDefault
+    property var cfg_sizeFontPanelDefault
+    property var cfg_temperatureUnit
+    property var cfg_temperatureUnitDefault
+    property var cfg_textUbication
+    property var cfg_textUbicationDefault
+    property var cfg_updateRecent
+    property var cfg_updateRecentDefault
+    property var cfg_UseFormat12hoursDefault
+    property var cfg_windUnit
+    property var cfg_windUnitDefault
+    property var title
+
     ScrollView {
         id: scrollView
         anchors.fill: parent

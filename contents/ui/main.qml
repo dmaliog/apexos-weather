@@ -67,11 +67,7 @@ PlasmoidItem {
 
     }
     fullRepresentation: FullRepresentation {
-        width: sectionWidth + Kirigami.Units.gridUnit
-        height: sectionHeight + Kirigami.Units.gridUnit
         Layout.minimumWidth: sectionWidth + Kirigami.Units.gridUnit
         Layout.minimumHeight: sectionHeight + Kirigami.Units.gridUnit
-        Layout.maximumWidth: Layout.minimumWidth
-        Layout.maximumHeight: Layout.minimumHeight
     }
 }

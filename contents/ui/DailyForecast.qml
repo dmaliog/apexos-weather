@@ -3,6 +3,7 @@ import QtQuick.Layouts
 import "lib" as Lib
 import org.kde.kirigami as Kirigami
 import org.kde.plasma.plasmoid
+import org.kde.ksvg as KSvg
 import "./js/fahrenheitFormatt.js" as FahrenheitFormatt
 
 Item {
@@ -15,71 +16,109 @@ Item {
     property var timesDaysForecast: []
 
     Lib.Card {
-        anchors.fill: parent
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        anchors.leftMargin: 2
+        anchors.rightMargin: 2
         anchors.topMargin: Kirigami.Units.smallSpacing * 2
+        anchors.bottomMargin: 2
         
-        GridLayout {
+        Row {
             anchors.fill: parent
-            anchors.margins: Kirigami.Units.smallSpacing
-            columns: 5
-            rowSpacing: Kirigami.Units.smallSpacing
-            columnSpacing: Kirigami.Units.smallSpacing
+            anchors.margins: 5
+            spacing: 6
+            clip: true
 
             Repeater {
                 model: 5
-                delegate: Rectangle {
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    color: Qt.rgba(Kirigami.Theme.textColor.r, Kirigami.Theme.textColor.g, Kirigami.Theme.textColor.b, 0.1)
-                    radius: 4
+                delegate: Item {
+                    width: (parent.width - (parent.spacing * 4)) / 5
+                    height: parent.height
+                    
+                    KSvg.FrameSvgItem {
+                        id: frame
+                        anchors.fill: parent
+                        imagePath: "widgets/viewitem"
+                        prefix: {
+                            if (mouseArea.containsMouse) {
+                                return "hover"
+                            }
+                            return "hover"
+                        }
+                        opacity: {
+                            if (mouseArea.containsMouse) {
+                                return 1.0
+                            }
+                            return 0.8
+                        }
+                        enabled: false
+                    }
+                    
+                    MouseArea {
+                        id: mouseArea
+                        anchors.fill: parent
+                        hoverEnabled: true
+                    }
 
-                    Column {
-                        anchors.centerIn: parent
-                        width: parent.width - Kirigami.Units.smallSpacing * 2
-                        spacing: Kirigami.Units.smallSpacing * 2
-
+                    Item {
+                        anchors.fill: parent
+                        anchors.margins: frame.margins.left
+                        
                         Kirigami.Heading {
                             id: days
+                            anchors.top: parent.top
+                            anchors.horizontalCenter: parent.horizontalCenter
                             width: parent.width
                             horizontalAlignment: Text.AlignHCenter
                             text: timesDaysForecast[modelData +  1] === undefined ? "--" : timesDaysForecast[modelData +  1]
                             level: 5
                         }
-                        Kirigami.Icon {
-                            id: icon
-                            source: iconsDaysForecast[modelData +  1]
-                            width: 24
-                            anchors.horizontalCenter: parent.horizontalCenter
-                            height: width
-                        }
-
-                        Item {
-                            id: tempItem
+                        
+                        Column {
+                            anchors.centerIn: parent
                             width: parent.width
-                            property int spacing: 4
-                            height: max.implicitHeight + min.implicitHeight + tempItem.spacing
-
-                            Kirigami.Heading {
-                                id: max
-                                width: parent.width
-                                horizontalAlignment: Text.AlignHCenter
-                                text: weatherMaxDaysForecast[modelData +  1] === undefined ? "--" : Math.round(weatherMaxDaysForecast[modelData +  1]) + "°"
-                                level: 5
+                            spacing: 4
+                            
+                            Kirigami.Icon {
+                                id: icon
+                                source: iconsDaysForecast[modelData +  1]
+                                width: 24
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                height: width
                             }
-                            Kirigami.Heading {
-                                id: min
+
+                            Item {
+                                id: tempItem
                                 width: parent.width
-                                anchors.top: max.bottom
-                                anchors.topMargin: tempItem.spacing
-                                opacity: 0.6
-                                horizontalAlignment: Text.AlignHCenter
-                                text: weatherMinDaysForecast[modelData +  1] === undefined ? "--" : Math.round(weatherMinDaysForecast[modelData +  1]) + "°"
-                                level: 5
+                                property int spacing: 4
+                                height: max.implicitHeight + min.implicitHeight + tempItem.spacing
+
+                                Kirigami.Heading {
+                                    id: max
+                                    width: parent.width
+                                    horizontalAlignment: Text.AlignHCenter
+                                    text: weatherMaxDaysForecast[modelData +  1] === undefined ? "--" : Math.round(weatherMaxDaysForecast[modelData +  1]) + "°"
+                                    level: 5
+                                }
+                                Kirigami.Heading {
+                                    id: min
+                                    width: parent.width
+                                    anchors.top: max.bottom
+                                    anchors.topMargin: tempItem.spacing
+                                    opacity: 0.6
+                                    horizontalAlignment: Text.AlignHCenter
+                                    text: weatherMinDaysForecast[modelData +  1] === undefined ? "--" : Math.round(weatherMinDaysForecast[modelData +  1]) + "°"
+                                    level: 5
+                                }
                             }
                         }
 
                         Kirigami.Heading {
                             id: rain
+                            anchors.bottom: parent.bottom
+                            anchors.horizontalCenter: parent.horizontalCenter
                             width: parent.width
                             horizontalAlignment: Text.AlignHCenter
                             text: rainDaysForecast[modelData +  1] === undefined ? "--" : "💧" +  Math.round(rainDaysForecast[modelData +  1])

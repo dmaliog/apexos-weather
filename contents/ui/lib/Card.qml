@@ -8,8 +8,7 @@ Item {
     HelperCard {
         id: background
         isShadow: false
-        width: parent.width
-        height:  parent.height
+        anchors.fill: parent
         isCustom: false
         customColorbg: Kirigami.Theme.backgroundColor
         visible: true
@@ -18,8 +17,7 @@ Item {
     HelperCard {
         id: shadow
         isShadow: true
-        width: parent.width
-        height:  parent.height
+        anchors.fill: parent
         isCustom: false
         visible: true
         opacity: 0.8
@@ -28,8 +26,7 @@ Item {
         id: mask
         isMask: true
         isCustom: false
-        height:  parent.height
-        width: parent.width
+        anchors.fill: parent
         visible: false
     }
 }

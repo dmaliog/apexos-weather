@@ -15,8 +15,6 @@ Item {
     clip: false
     Layout.minimumWidth: sectionWidth + Kirigami.Units.gridUnit
     Layout.minimumHeight: sectionHeight + Kirigami.Units.gridUnit
-    Layout.maximumWidth: minimumWidth
-    Layout.maximumHeight: minimumHeight
 
     property var sections: [mainWeatherView, hourlyForecastView, dailyForecastView]
     property int currentIndex: 0

@@ -3,6 +3,7 @@ import QtQuick.Layouts
 import "lib" as Lib
 import org.kde.plasma.plasmoid
 import org.kde.kirigami as Kirigami
+import org.kde.ksvg as KSvg
 import "./js/fahrenheitFormatt.js" as FahrenheitFormatt
 
 Item {
@@ -35,30 +36,57 @@ Item {
     }
 
     Lib.Card {
-       anchors.fill: parent
+       anchors.left: parent.left
+       anchors.right: parent.right
+       anchors.top: parent.top
+       anchors.bottom: parent.bottom
+       anchors.leftMargin: 2
+       anchors.rightMargin: 2
        anchors.topMargin: Kirigami.Units.smallSpacing * 2
+       anchors.bottomMargin: 2
        
-       GridLayout {
+       Row {
            anchors.fill: parent
-           anchors.margins: Kirigami.Units.smallSpacing
-           columns: 5
-           rowSpacing: Kirigami.Units.smallSpacing
-           columnSpacing: Kirigami.Units.smallSpacing
+           anchors.margins: 5
+           spacing: 6
+           clip: true
 
            Repeater {
                id: repeater
                model: 5
-               delegate: Rectangle {
-                   Layout.fillWidth: true
-                   Layout.fillHeight: true
-                   color: Qt.rgba(Kirigami.Theme.textColor.r, Kirigami.Theme.textColor.g, Kirigami.Theme.textColor.b, 0.1)
-                   radius: 4
+               delegate: Item {
+                   width: (parent.width - (parent.spacing * 4)) / 5
+                   height: parent.height
+                   
+                   KSvg.FrameSvgItem {
+                       id: frame
+                       anchors.fill: parent
+                       imagePath: "widgets/viewitem"
+                       prefix: {
+                           if (mouseArea.containsMouse) {
+                               return "hover"
+                           }
+                           return "hover"
+                       }
+                       opacity: {
+                           if (mouseArea.containsMouse) {
+                               return 1.0
+                           }
+                           return 0.8
+                       }
+                       enabled: false
+                   }
+                   
+                   MouseArea {
+                       id: mouseArea
+                       anchors.fill: parent
+                       hoverEnabled: true
+                   }
 
-                   Column {
+                   Item {
                        id: columnDelegate
-                       anchors.centerIn: parent
-                       width: parent.width - Kirigami.Units.smallSpacing * 2
-                       spacing: Kirigami.Units.smallSpacing * 2
+                       anchors.fill: parent
+                       anchors.margins: frame.margins.left
                        property int itemIndex: {
                            var root = columnDelegate
                            for (var i = 0; i < 10 && root.parent; i++) {
@@ -69,29 +97,42 @@ Item {
                            }
                            return modelData + 1
                        }
+                       
                        Kirigami.Heading {
                            id: hours
+                           anchors.top: parent.top
+                           anchors.horizontalCenter: parent.horizontalCenter
                            width: parent.width
                            horizontalAlignment: Text.AlignHCenter
                            text: timesDatesForecast[parent.itemIndex] === undefined ? "--" : timesDatesForecast[parent.itemIndex]
                            level: 5
                        }
-                       Kirigami.Icon {
-                           id: icon
-                           source: iconsHourlyForecast[parent.itemIndex]
-                           width: 24
-                           anchors.horizontalCenter: parent.horizontalCenter
-                           height: width
-                       }
-                       Kirigami.Heading {
-                           id: temperature
+                       
+                       Column {
+                           anchors.centerIn: parent
                            width: parent.width
-                           horizontalAlignment: Text.AlignHCenter
-                           text: weatherHourlyForecast[parent.itemIndex] === undefined ? "--" : Math.round(weatherHourlyForecast[parent.itemIndex]) + "°"
-                           level: 5
+                           spacing: 4
+                           
+                           Kirigami.Icon {
+                               id: icon
+                               source: iconsHourlyForecast[parent.parent.itemIndex]
+                               width: 24
+                               anchors.horizontalCenter: parent.horizontalCenter
+                               height: width
+                           }
+                           Kirigami.Heading {
+                               id: temperature
+                               width: parent.width
+                               horizontalAlignment: Text.AlignHCenter
+                               text: weatherHourlyForecast[parent.parent.itemIndex] === undefined ? "--" : Math.round(weatherHourlyForecast[parent.parent.itemIndex]) + "°"
+                               level: 5
+                           }
                        }
+                       
                        Kirigami.Heading {
                            id: rain
+                           anchors.bottom: parent.bottom
+                           anchors.horizontalCenter: parent.horizontalCenter
                            width: parent.width
                            horizontalAlignment: Text.AlignHCenter
                            text: rainHourlyForecast[parent.itemIndex] === undefined ? "--" : "💧" +  Math.round(rainHourlyForecast[parent.itemIndex])

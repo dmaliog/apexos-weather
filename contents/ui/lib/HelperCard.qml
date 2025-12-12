@@ -136,13 +136,16 @@ Item {
         }
     }
     Flow {
-        width: parent.width + excessWidth
-        height: parent.height + excessHeight
         anchors.left: parent.left
-        anchors.leftMargin: isShadow ? -marginX : 0
+        anchors.right: parent.right
         anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        anchors.leftMargin: isShadow ? -marginX : 0
+        anchors.rightMargin: isShadow ? -marginX : 0
         anchors.topMargin: isShadow ? -marginY : 0
+        anchors.bottomMargin: isShadow ? -marginY : 0
         visible: !isCustom
+        clip: true
 
         Repeater {
             model: namesItemsSvg

@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Layouts
 import org.kde.plasma.plasmoid 2.0
 import org.kde.kirigami as Kirigami
+import org.kde.ksvg as KSvg
 import "./js/fahrenheitFormatt.js" as FahrenheitFormatt
 
 Item {
@@ -186,9 +187,6 @@ Item {
     Connections {
         target: Plasmoid.configuration
         function onMetricsOrderChanged() {
-            if (detailsSection) {
-                detailsSection.updateModel()
-            }
         }
     }
 
@@ -256,11 +254,13 @@ Item {
             id: detailsSection
             Layout.fillWidth: true
             Layout.fillHeight: true
+            Layout.leftMargin: 1
             cellWidth: width / 3
-            cellHeight: height / Math.ceil(titles.length / 3)
+            cellHeight: (height - 10) / Math.ceil(titles.length / 3) + 5
             clip: true
             interactive: draggedIndex === -1
             boundsBehavior: draggedIndex === -1 ? Flickable.DragAndOvershootBounds : Flickable.StopAtBounds
+            
             model: ListModel {
                 id: metricsModel
             }
@@ -270,6 +270,24 @@ Item {
             property int draggedIndex: -1
             property int dropTargetIndex: -1
             property Item currentDragVisual: null
+            
+            MouseArea {
+                id: globalDragHandler
+                anchors.fill: parent
+                enabled: detailsSection.draggedIndex !== -1
+                z: 10000
+                cursorShape: Qt.ClosedHandCursor
+                propagateComposedEvents: false
+                onPositionChanged: function(mouse) {
+                    mouse.accepted = true
+                }
+                onPressed: function(mouse) {
+                    mouse.accepted = true
+                }
+                onReleased: function(mouse) {
+                    mouse.accepted = true
+                }
+            }
             
             onDraggedIndexChanged: {
                 if (draggedIndex !== -1) {
@@ -284,10 +302,12 @@ Item {
             }
             
 
-            delegate: Rectangle {
+            delegate: Item {
                 id: tileDelegate
-                width: detailsSection.cellWidth - Kirigami.Units.smallSpacing
-                height: detailsSection.cellHeight - Kirigami.Units.smallSpacing
+                width: detailsSection.cellWidth - 5
+                height: detailsSection.cellHeight - 5
+                x: Math.floor((index % 3) * detailsSection.cellWidth) + 2.5
+                y: Math.floor(Math.floor(index / 3) * detailsSection.cellHeight) + 2.5
                 
                 Connections {
                     target: detailsSection
@@ -303,37 +323,33 @@ Item {
                         }
                     }
                 }
-                color: {
-                    if (detailsSection.draggedIndex === index) {
-                        return Qt.rgba(Kirigami.Theme.textColor.r, Kirigami.Theme.textColor.g, Kirigami.Theme.textColor.b, 0.05)
-                    } else if (detailsSection.dropTargetIndex === index && detailsSection.draggedIndex !== -1) {
-                        return Qt.rgba(Kirigami.Theme.highlightColor.r, Kirigami.Theme.highlightColor.g, Kirigami.Theme.highlightColor.b, 0.2)
-                    } else if (dragArea.containsMouse && detailsSection.draggedIndex === -1) {
-                        return Qt.rgba(Kirigami.Theme.textColor.r, Kirigami.Theme.textColor.g, Kirigami.Theme.textColor.b, 0.15)
-                    } else {
-                        return Qt.rgba(Kirigami.Theme.textColor.r, Kirigami.Theme.textColor.g, Kirigami.Theme.textColor.b, 0.1)
+                
+                KSvg.FrameSvgItem {
+                    id: frame
+                    anchors.fill: parent
+                    imagePath: "widgets/viewitem"
+                    prefix: {
+                        if (detailsSection.draggedIndex === index && dragArea.drag.active) {
+                            return "normal"
+                        } else if (dragArea.pressed && !dragArea.dragStarted) {
+                            return "selected"
+                        } else if (dragArea.containsMouse && detailsSection.draggedIndex === -1) {
+                            return "hover"
+                        }
+                        return "hover"
                     }
-                }
-                radius: 4
-                border.width: {
-                    if (detailsSection.dropTargetIndex === index && detailsSection.draggedIndex !== -1) {
-                        return 2
-                    } else if (dragArea.containsMouse && detailsSection.draggedIndex === -1) {
-                        return 1
+                    opacity: {
+                        if (dragArea.containsMouse || (dragArea.pressed && !dragArea.dragStarted)) {
+                            return 1.0
+                        }
+                        return 0.8
                     }
-                    return 0
+                    enabled: false
                 }
-                border.color: {
-                    if (detailsSection.dropTargetIndex === index && detailsSection.draggedIndex !== -1) {
-                        return Kirigami.Theme.highlightColor
-                    } else if (dragArea.containsMouse && detailsSection.draggedIndex === -1) {
-                        return Qt.rgba(Kirigami.Theme.textColor.r, Kirigami.Theme.textColor.g, Kirigami.Theme.textColor.b, 0.3)
-                    }
-                    return "transparent"
-                }
+                
                 opacity: {
                     if (detailsSection.draggedIndex === index && dragArea.drag.active) {
-                        return 0.3
+                        return 0.8
                     }
                     return 1.0
                 }
@@ -348,12 +364,20 @@ Item {
                     anchors.fill: parent
                     acceptedButtons: Qt.LeftButton
                     hoverEnabled: true
-                    z: 1
+                    z: 10
                     preventStealing: true
-                    cursorShape: containsMouse ? Qt.OpenHandCursor : Qt.ArrowCursor
+                    cursorShape: {
+                        if ((detailsSection.draggedIndex === index && drag.active) || (detailsSection.draggedIndex === index && dragStarted)) {
+                            return Qt.ClosedHandCursor
+                        } else if (containsMouse && detailsSection.draggedIndex === -1) {
+                            return Qt.OpenHandCursor
+                        }
+                        return Qt.ArrowCursor
+                    }
                     drag.axis: Drag.XAndYAxis
                     drag.threshold: 5
                     propagateComposedEvents: false
+                    enabled: detailsSection.draggedIndex === -1 || detailsSection.draggedIndex === index
                     
                     property Item dragVisual: null
                     property point startPos: Qt.point(0, 0)
@@ -363,18 +387,17 @@ Item {
                     property point lastPos: Qt.point(-1, -1)
                     
                     onPressed: function(mouse) {
-                        if (detailsSection.draggedIndex !== -1 && detailsSection.draggedIndex !== index) {
-                            if (detailsSection.currentDragVisual) {
-                                detailsSection.currentDragVisual.destroy()
-                                detailsSection.currentDragVisual = null
-                            }
-                            detailsSection.draggedIndex = -1
-                            detailsSection.dropTargetIndex = -1
-                        }
+                        parent.forceActiveFocus()
                         
                         if (detailsSection.currentDragVisual) {
                             detailsSection.currentDragVisual.destroy()
                             detailsSection.currentDragVisual = null
+                        }
+                        
+                        if (detailsSection.draggedIndex !== -1) {
+                            detailsSection.cleanupDrag()
+                            detailsSection.draggedIndex = -1
+                            detailsSection.dropTargetIndex = -1
                         }
                         
                         startPos = Qt.point(mouse.x, mouse.y)
@@ -382,13 +405,17 @@ Item {
                         dragStarted = false
                         lastCalculatedIndex = -1
                         lastPos = Qt.point(-1, -1)
+                        dragVisual = null
                         mouse.accepted = true
                     }
+                    
                     
                     onPositionChanged: function(mouse) {
                         if (!pressed) {
                             return
                         }
+                        
+                        mouse.accepted = true
                         
                         var deltaX = Math.abs(mouse.x - startPos.x)
                         var deltaY = Math.abs(mouse.y - startPos.y)
@@ -435,7 +462,7 @@ Item {
                             if (lastCalculatedIndex === -1 || posDeltaX > minDelta || posDeltaY > minDelta) {
                                 var cellX = Math.floor(globalPos.x / detailsSection.cellWidth)
                                 var cellY = Math.floor(globalPos.y / detailsSection.cellHeight)
-                                var newIndex = cellY * 3 + cellX
+                                var newIndex = Math.max(0, Math.min(cellY * 3 + cellX, metricsModel.count - 1))
                                 
                                 if (newIndex >= 0 && newIndex < metricsModel.count && 
                                     newIndex !== detailsSection.draggedIndex && 
@@ -447,8 +474,6 @@ Item {
                                 }
                             }
                         }
-                        
-                        mouse.accepted = true
                     }
                     
                     onReleased: {
@@ -485,19 +510,22 @@ Item {
                 DropArea {
                     id: dropArea
                     anchors.fill: parent
-                    z: 0
+                    z: -2
                     keys: ["metric"]
+                    enabled: detailsSection.draggedIndex !== -1 && detailsSection.draggedIndex !== index
                     
                     onEntered: function(drag) {
                         if (detailsSection.draggedIndex !== -1 && detailsSection.draggedIndex !== index && detailsSection.draggedIndex < metricsModel.count && index < metricsModel.count) {
                             detailsSection.dropTargetIndex = index
                         }
+                        drag.accepted = false
                     }
                     
-                    onExited: {
+                    onExited: function(drag) {
                         if (detailsSection.dropTargetIndex === index) {
                             detailsSection.dropTargetIndex = -1
                         }
+                        drag.accepted = false
                     }
                     
                     onDropped: function(drop) {
@@ -515,22 +543,24 @@ Item {
                 
                 Component {
                     id: dragVisualComponent
-                    Rectangle {
+                    Item {
                         parent: detailsSection
-                        color: Qt.rgba(Kirigami.Theme.highlightColor.r, Kirigami.Theme.highlightColor.g, Kirigami.Theme.highlightColor.b, 0.9)
-                        radius: 4
-                        border.width: 2
-                        border.color: Kirigami.Theme.highlightColor
                         z: 100
                         scale: 1.05
                         opacity: 0.95
                         
-                        Rectangle {
+                        MouseArea {
                             anchors.fill: parent
-                            anchors.margins: -2
-                            radius: parent.radius + 2
-                            color: Qt.rgba(0, 0, 0, 0.3)
-                            z: -1
+                            cursorShape: Qt.ClosedHandCursor
+                            enabled: false
+                            z: 1
+                        }
+                        
+                        KSvg.FrameSvgItem {
+                            id: dragFrame
+                            anchors.fill: parent
+                            imagePath: "widgets/viewitem"
+                            prefix: "selected"
                         }
                         
                         Drag.active: true
@@ -543,7 +573,7 @@ Item {
                         
                         Column {
                             anchors.centerIn: parent
-                            width: parent.width - Kirigami.Units.smallSpacing * 2
+                            width: parent.width - dragFrame.margins.right * 2
                             spacing: 4
 
                             Kirigami.Heading {
@@ -567,8 +597,9 @@ Item {
 
                 Column {
                     anchors.centerIn: parent
-                    width: parent.width - Kirigami.Units.smallSpacing * 2
+                    width: parent.width - frame.margins.right * 2
                     spacing: 4
+                    enabled: false
 
                     Kirigami.Heading {
                         width: parent.width

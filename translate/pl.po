@@ -1,12 +1,12 @@
-# Translation of plasma Freyry in Polish
+# Translation of plasma ApexOS Weather in Polish
 # Copyright (C) 2025
 # This file is distributed under the same license as the plasma flex hub package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Freyry Weather\n"
-"Report-Msgid-Bugs-To: https://github.com/zayronxio/Freyry.Weather/\n"
+"Project-Id-Version: ApexOS Weather\n"
+"Report-Msgid-Bugs-To: https://apexos.ru/\n"
 "POT-Creation-Date: 2025-12-08 00:00-0000\n"
 "PO-Revision-Date: 2025-12-12\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"

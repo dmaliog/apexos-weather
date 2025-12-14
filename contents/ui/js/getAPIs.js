@@ -34,9 +34,11 @@ function getNameCity(latitude, longitud, leng, callback) {
                     let datos = JSON.parse(req.responseText);
                     let address = datos.address;
                     let city = address.city;
+                    let town = address.town;
+                    let village = address.village;
                     let county = address.county;
                     let state = address.state;
-                    let full = city ? city : state ? state : county;
+                    let full = city ? city : (town ? town : (village ? village : (county ? county : state)));
                     callback(full);
                 } catch (e) {
                     callback(null);

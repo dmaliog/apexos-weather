@@ -246,8 +246,10 @@ Item {
          getCoordinatesWithIp()
        } else {
          if (latitudeC != 0 && longitudeC != 0) {
-           getCityFuncion()
            getWeatherApi()
+           if (cityUbication !== null && cityUbication !== "") {
+             city = cityUbication
+           }
          }
        }
     }
